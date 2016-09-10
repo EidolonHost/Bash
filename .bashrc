@@ -52,16 +52,13 @@ alias lsfa='ls -lA | grep --color=never -v "^d" | awk '\''{
 
 alias path='echo -e ${PATH//:/\\n}'
 alias home='cd'
-alias desktop='cd ~/Desktop'
-alias docs='cd ~/Documents'
-alias music='cd ~/Music'
-alias pictures='cd ~/Pictures'
-alias videos='cd ~/Videos'
-alias downloads='cd ~/Downloads'
 alias sauce='source ~/.bashrc'
 alias sd='sudo shutdown -H -P now'
 alias restart='sudo shutdown -r now'
 alias ddoscheck='sudo netstat -antp | awk '{print$5}' | cut -d':' -f1 | uniq -c | sort -r'
+alias debupdate='sudo apt-get update && apt-get upgrade'
+alias yumupdate='sudo yum update'
+
 # Alias for SSH
 
 alias starlight='ssh systems.eidolonhost.com -l root'
@@ -100,9 +97,10 @@ SC=$GREEN
 
 echo -e ${SC}Hello, ${PR}$USER${SC}. Welcome to ${PR}`hostname`
 echo -e ${SC}You are on ${PR}`cat /etc/issue.net`${SC}, with ${PR}`uname -a | awk /'201*/{print $12}'` ${SC}as your platform.
-echo -e ${PR}`hostname`\'s IPv4${SC} IP address is: ${PR}`~/ipaddress`
-echo -e ${PR}`hostname`\'s IPv6${SC} IP address is: ${PR}`hostname -I | awk /'1.2.3.4/{print $9}'` # do a hostname -I to find out what IPv6 IP is bound to the server. If more than one IPv6 IP is found, start from the IPv4 IP, count to the main IPv6 IP and set that as the {print $NUM} here.
+# echo -e ${SC}You are on ${PR}`cat /etc/redhat-release`${SC}, with ${PR}`uname -a | awk /'201*/{print $12}'` ${SC}as your platform.
+echo -e ${PR}`hostname`\'s IPv4${SC} IP address is: ${PR}`curl -s -4 http://icanhazip.com/`
+echo -e ${PR}`hostname`\'s IPv6${SC} IP address is: ${PR}`curl -s -6 http://icanhazip.com/`
 echo -e ${PR}`hostname`\'s${SC} uptime is: ${PR}`uptime | awk /'up/{print $3}'` ${PR}`uptime | awk /'up/{print $4}'` ${PR}`uptime | awk /'users*/{print $6}'` ${SC}users are currently logged into the server.
-echo -e ${PR}$USER${SC}, your current load average is: ${PR}`uptime | awk /'average/{print $10}'`${SC} and ${PR}`uptime | awk /'average/{print $11}'` ${SC}over a 5 minutes period, with ${PR}`uptime | awk /'average/{print $12}'` ${SC}over a 15 minute period.
+echo -e ${PR}$USER${SC}, your current load average is: ${PR}`cat /proc/loadavg | awk '{print $1}'`${SC} and ${PR}`cat /proc/loadavg | awk '{print $2}'` ${SC}over a 5 minutes period, with ${PR}`cat /proc/loadavg | awk '{print $3}'` ${SC}over a 15 minute period.
 echo -e ${PR}$USER${SC}, you have ${PR}`top -n 1 | awk /'Tasks/{print $2}'` ${SC}tasks running.
 echo
